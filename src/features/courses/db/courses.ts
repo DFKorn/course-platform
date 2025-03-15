@@ -10,3 +10,14 @@ export async function insertCourse(data: typeof CourseTable.$inferInsert) {
 
   return newCourse
 }
+
+export async function deleteCourse(id: string) {
+  const [deletedCourse] = await db
+    .delete(CourseTable)
+    .where(eq(CourseTable.id, id))
+    .returning()
+  if (deletedCourse == null) throw new Error("Failed to delete course")
+  revalidateCourseCache(deletedCourse.id)
+
+  return deletedCourse
+}
