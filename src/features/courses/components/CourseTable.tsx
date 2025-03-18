@@ -1,4 +1,4 @@
-import { ActionButton } from "@/components/ActrionButton"
+import { ActionButton } from "@/components/ActionButton"
 import { Button } from "@/components/ui/button"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { formatPlural } from "@/lib/formatters"

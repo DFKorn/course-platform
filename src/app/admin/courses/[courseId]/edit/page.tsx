@@ -1,4 +1,4 @@
-import { ActionButton } from "@/components/ActrionButton"
+import { ActionButton } from "@/components/ActionButton"
 import { PageHeader } from "@/components/PageHeader"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -10,6 +10,7 @@ import { CourseForm } from "@/features/courses/components/CourseForm"
 import { getCourseIdTag } from "@/features/courses/db/cache/courses"
 import { deleteSection } from "@/features/courseSections/actions/sections"
 import { SectionFormDialog } from "@/features/courseSections/components/SectionFormDialog"
+import { SortableSectionList } from "@/features/courseSections/components/SortableSectionList"
 import { getCourseSectionCourseTag } from "@/features/courseSections/db/cache"
 import { getLessonCourseTag } from "@/features/lessons/db/cache/lessons"
 import { cn } from "@/lib/utils"
@@ -50,11 +51,11 @@ export default async function EditCoursePage({
                 </SectionFormDialog>
               </CardHeader>
               <CardContent>
-                {/* <SortableSectionList
+                <SortableSectionList
                   courseId={course.id}
                   sections={course.courseSections}
-                /> */}
-                {course.courseSections.map(section => (
+                />
+                {/* {course.courseSections.map(section => (
                   <div key={section.id} className="flex items-center gap-1">
                   <div className={cn('contents', section.status === 'private' &&  'text-muted-foreground'
                   )}>
@@ -74,7 +75,7 @@ export default async function EditCoursePage({
                     <span className="sr-only">Delete</span>
                     </ ActionButton>
                   </div>
-                ))}
+                ))} */}
               </CardContent>
             </Card>
             <hr className="my-2" />
