@@ -26,6 +26,7 @@ export function SortableList<T extends { id: string }>({
     children: (items: T[]) => ReactNode
   }) {
     
+    const dndContextId = useId()
     const [optimisticItems, setOptimisticItems] = useOptimistic(items)
     const [, startTransition] = useTransition()
 
@@ -53,7 +54,7 @@ export function SortableList<T extends { id: string }>({
 
 
     return (
-        <DndContext /* id={dndContextId} */ onDragEnd={handleDragEnd}>
+        <DndContext id={dndContextId} onDragEnd={handleDragEnd}>
             <SortableContext
                 items={optimisticItems}
                 strategy={verticalListSortingStrategy}

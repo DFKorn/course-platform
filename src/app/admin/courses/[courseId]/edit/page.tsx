@@ -12,6 +12,8 @@ import { deleteSection } from "@/features/courseSections/actions/sections"
 import { SectionFormDialog } from "@/features/courseSections/components/SectionFormDialog"
 import { SortableSectionList } from "@/features/courseSections/components/SortableSectionList"
 import { getCourseSectionCourseTag } from "@/features/courseSections/db/cache"
+import { LessonFormDialog } from "@/features/lessons/components/LessonFormDialog"
+import { SortableLessonList } from "@/features/lessons/components/SortableLessonList"
 import { getLessonCourseTag } from "@/features/lessons/db/cache/lessons"
 import { cn } from "@/lib/utils"
 import { Tabs } from "@radix-ui/react-tabs"
@@ -79,7 +81,7 @@ export default async function EditCoursePage({
               </CardContent>
             </Card>
             <hr className="my-2" />
-            {/* {course.courseSections.map(section => (
+            {course.courseSections.map(section => (
               <Card key={section.id}>
                 <CardHeader className="flex items-center flex-row justify-between gap-4">
                   <CardTitle
@@ -108,7 +110,7 @@ export default async function EditCoursePage({
                   />
                 </CardContent>
               </Card>
-            ))} */}
+            ))}
           </TabsContent>
           <TabsContent value="details">
             <Card>
