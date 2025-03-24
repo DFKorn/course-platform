@@ -65,9 +65,9 @@ export function canDeleteLessons({ role }: { role: UserRole | undefined }) {
     .limit(1)
 
   return data != null && data.courseId != null
-}
+} */
 
 export const wherePublicLessons = or(
   eq(LessonTable.status, "public"),
   eq(LessonTable.status, "preview")
-) */
+)

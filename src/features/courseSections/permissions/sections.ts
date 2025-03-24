@@ -25,4 +25,5 @@ export function canDeleteCourseSections({
   return role === "admin"
 }
 
+//for product page
 export const wherePublicCourseSections = eq(CourseSectionTable.status, "public")
