@@ -6,7 +6,7 @@ import { getProductIdTag } from "@/features/products/db/cache"
 import { userOwnsProduct } from "@/features/products/db/products"
 import { wherePublicProducts } from "@/features/products/permissions/products"
 import { getCurrentUser } from "@/services/clerk"
-// import { StripeCheckoutForm } from "@/services/stripe/components/StripeCheckoutForm"
+import { StripeCheckoutForm } from "@/services/stripe/components/StripeCheckoutForm"
 import { SignIn, SignUp } from "@clerk/nextjs"
 import { and, eq } from "drizzle-orm"
 import { cacheTag } from "next/dist/server/use-cache/cache-tag"
@@ -47,7 +47,7 @@ async function SuspendedComponent({
 
     return (
       <div className="container my-6">
-        {/* <StripeCheckoutForm product={product} user={user} /> */}
+        <StripeCheckoutForm product={product} user={user} />
       </div>
     )
   }
