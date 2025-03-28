@@ -27,6 +27,7 @@ export async function insertPurchase(
   return newPurchase
 }
 
+//function for purchases action
 export async function updatePurchase(
   id: string,
   data: Partial<typeof PurchaseTable.$inferInsert>,
