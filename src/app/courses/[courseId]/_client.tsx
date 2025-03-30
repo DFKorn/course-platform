@@ -29,6 +29,7 @@ export function CoursePageClient({
   }
 }) {
   const { lessonId } = useParams()
+  //console.log(lessonId)
   const defaultValue =
     typeof lessonId === "string"
       ? course.courseSections.find(section =>
