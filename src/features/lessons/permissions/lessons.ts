@@ -25,7 +25,7 @@ export function canDeleteLessons({ role }: { role: UserRole | undefined }) {
   return role === "admin"
 }
 
-/* export async function canViewLesson(
+export async function canViewLesson(
   {
     role,
     userId,
@@ -65,7 +65,7 @@ export function canDeleteLessons({ role }: { role: UserRole | undefined }) {
     .limit(1)
 
   return data != null && data.courseId != null
-} */
+}
 
 export const wherePublicLessons = or(
   eq(LessonTable.status, "public"),
