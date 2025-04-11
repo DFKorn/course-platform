@@ -3,6 +3,7 @@ import arcjet, { detectBot, shield, slidingWindow } from "@arcjet/next"
 import { env } from "./data/env/server"
 import { setUserCountryHeader } from "./lib/userCountryHeader"
 import { NextResponse } from "next/server"
+export { auth as AuthMiddleware } from "../auth"
 
 
 const isPublicRoute = createRouteMatcher([
