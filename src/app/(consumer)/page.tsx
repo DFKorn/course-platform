@@ -1,4 +1,5 @@
 
+import SignIn from "@/components/SignIn"
 import { db } from "@/drizzle/db"
 import { ProductTable } from "@/drizzle/schema"
 import { ProductCard } from "@/features/products/components/ProductCard"
@@ -13,6 +14,7 @@ export default async function HomePage() {
   return (
     <div className="container my-6">
       <div className="grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-4">
+        <SignIn />
         {products.map(product => (
           <ProductCard key={product.id} {...product} />
         ))}
