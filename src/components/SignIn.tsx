@@ -1,14 +1,18 @@
 import { signIn } from "../../auth"
+import { Button } from "./ui/button"
  
-export default function SignIn() {
+export default function SignIn({provider,...props}:{ provider?: string } & React.ComponentPropsWithRef<typeof Button>) {
   return (
     <form
       action={async () => {
         "use server"
-        await signIn("github")
+        await signIn(provider)
       }}
     >
-      <button type="submit">Signin with GitHub</button>
+      <Button {...props}>Sign In</Button>
+      {/* <button type="submit">Signin with GitHub</button> */}
     </form>
   )
 } 
+
+

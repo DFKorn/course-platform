@@ -1,7 +1,66 @@
+'use server'
 import { db } from "@/drizzle/db"
-import { UserTable } from "@/drizzle/schema"
+import { users, UserTable } from "@/drizzle/schema"
 import { eq } from "drizzle-orm"
 import { revalidateUserCache } from "./cache"
+import { z } from "zod"
+import bcrypt from "bcryptjs"
+
+
+
+export async function getAuthUser(email: string) {
+    // "use cache"
+    // cacheTag(getUserIdTag(id))
+    //console.log("Called")
+  
+    return db.query.users.findFirst({
+      where: eq(users.email, email),
+    })
+  }
+
+
+export async function insertAuthUser(data: typeof users.$inferInsert){
+
+  const parsedData = z
+            .object({name:z.string(), email: z.string().email(), password: z.string().min(6) })
+            .safeParse(data);
+
+  if (parsedData.success) {
+    const {name, email, password} = parsedData.data
+    const user = await getAuthUser(email)
+    if (user?.email) {
+      return { error: true, message: "User already exists" }
+      throw new Error("User already exists")
+    }
+
+    const salt = await bcrypt.genSalt(10);
+    
+
+    const hashedPass = await bcrypt.hash(password, salt);  
+    const [newUser] = await db
+    .insert(users)
+    .values({name, email, password: hashedPass})
+    .returning()
+
+    if (newUser == null) {
+      return { error: true, message: "There was an error creating your account" }
+      //throw new Error("Failed to create user")
+    }
+
+    return { error: false, message: "New User successfully created" }  
+    //return newUser
+    
+
+  }          
+  
+  return { error: true, message: "There was an error creating your account" }
+
+  
+}
+
+
+
+
 
 export async function insertUser(data: typeof UserTable.$inferInsert) {
     const [newUser] = await db

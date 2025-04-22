@@ -1,5 +1,6 @@
 
-import SignIn from "@/components/SignIn"
+import { SignOut } from "@/components/signOut"
+import { Button } from "@/components/ui/button"
 import { db } from "@/drizzle/db"
 import { ProductTable } from "@/drizzle/schema"
 import { ProductCard } from "@/features/products/components/ProductCard"
@@ -7,6 +8,7 @@ import { getProductGlobalTag } from "@/features/products/db/cache"
 import { wherePublicProducts } from "@/features/products/permissions/products"
 import { asc } from "drizzle-orm"
 import { cacheTag } from "next/dist/server/use-cache/cache-tag"
+import Link from "next/link"
 
 export default async function HomePage() {
   const products = await getPublicProducts()
@@ -14,7 +16,10 @@ export default async function HomePage() {
   return (
     <div className="container my-6">
       <div className="grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-4">
-        <SignIn />
+        <Link href={'/sign-in'}>
+          <Button>Sign In</Button>
+        </Link>
+        <SignOut/>
         {products.map(product => (
           <ProductCard key={product.id} {...product} />
         ))}

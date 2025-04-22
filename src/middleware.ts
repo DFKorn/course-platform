@@ -4,7 +4,8 @@ import { env } from "./data/env/server"
 import { setUserCountryHeader } from "./lib/userCountryHeader"
 import { NextResponse } from "next/server"
 export { auth as AuthMiddleware } from "../auth"
-
+//export { auth as middleware } from "../auth"
+import { auth as Auth } from "../auth"
 
 const isPublicRoute = createRouteMatcher([
   "/",

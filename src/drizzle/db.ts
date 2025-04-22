@@ -26,13 +26,24 @@ export const db = drizzle({
 
 
 //Config for Neon + PostgreSQL (node-postgres driver)
-import { env } from "@/data/env/server";
-import * as schema from "./schema"
-import { pgTable, serial, text, varchar } from "drizzle-orm/pg-core";
-import { drizzle } from "drizzle-orm/node-postgres";
-import { Pool } from "pg";
-const pool = new Pool({
-  connectionString: env.DATABASE_URL,
-});
-export const db = drizzle({ client: pool, schema: schema});
+// import { env } from "@/data/env/server";
+// import * as schema from "./schema"
+// import { pgTable, serial, text, varchar } from "drizzle-orm/pg-core";
+// import { drizzle } from "drizzle-orm/node-postgres";
+// import { Pool } from "pg";
+// const pool = new Pool({
+//   connectionString: env.DATABASE_URL,
+// });
+// export const db = drizzle({ client: pool, schema: schema});
  
+
+//Config for Neon + PostgreSQL (postgres.js driver)
+import { env } from "@/data/env/server";
+import { drizzle } from 'drizzle-orm/postgres-js';
+import postgres from 'postgres';
+import * as schema from "./schema"
+const queryClient = postgres(env.DATABASE_URL);
+export const db = drizzle({ client: queryClient, schema: schema });
+
+
+
