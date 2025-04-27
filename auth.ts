@@ -65,18 +65,23 @@ import { getAuthUser } from "@/features/users/db/users"
       signIn: "/sign-in",
     },
     callbacks: {
-      authorized({ auth, request: { nextUrl } }) {
-        console.log('AUTH',auth)
-        const isLoggedIn = !!auth?.user;
-        const isOnDashboard = nextUrl.pathname.startsWith('/dashboard');
-        if (isOnDashboard) {
-          if (isLoggedIn) return true;
-          return false; // Redirect unauthenticated users to login page
-        } else if (isLoggedIn) {
-          return Response.redirect(new URL('/dashboard', nextUrl));
-        }
-        return false;
-      },
+      // authorized({auth, request: {nextUrl}}){
+      //   console.log('AUTHORIZED!',auth)
+      //   return !!auth?.user
+      // }
+      // authorized({ auth, request: { nextUrl } }) {
+      //   return !!auth?.user
+      //   // console.log('AUTH',auth)
+      //   // const isLoggedIn = !!auth?.user;
+      //   // const isOnDashboard = nextUrl.pathname.startsWith('/dashboard');
+      //   // if (isOnDashboard) {
+      //   //   if (isLoggedIn) return true;
+      //   //   return false; // Redirect unauthenticated users to login page
+      //   // } else if (isLoggedIn) {
+      //   //   return Response.redirect(new URL('/dashboard', nextUrl));
+      //   // }
+      //   return false;
+      // },
     },
   })
 

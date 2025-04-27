@@ -17,7 +17,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider >
+    // <ClerkProvider >
       <html lang="en">
         <body
           className={`antialiased`}
@@ -26,6 +26,6 @@ export default function RootLayout({
           <Toaster richColors/>
         </body>
       </html>
-    </ClerkProvider>
+    // </ClerkProvider>
   );
 }

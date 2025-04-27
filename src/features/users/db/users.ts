@@ -47,6 +47,8 @@ export async function insertAuthUser(data: typeof users.$inferInsert){
       //throw new Error("Failed to create user")
     }
 
+    insertUser({...newUser, clerkUserId: newUser.id})
+
     return { error: false, message: "New User successfully created" }  
     //return newUser
     

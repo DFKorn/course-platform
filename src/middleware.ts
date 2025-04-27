@@ -3,7 +3,7 @@ import arcjet, { detectBot, shield, slidingWindow } from "@arcjet/next"
 import { env } from "./data/env/server"
 import { setUserCountryHeader } from "./lib/userCountryHeader"
 import { NextResponse } from "next/server"
-export { auth as AuthMiddleware } from "../auth"
+//export { auth as AuthMiddleware } from "../auth"
 //export { auth as middleware } from "../auth"
 import { auth as Auth } from "../auth"
 
@@ -35,36 +35,75 @@ const aj = arcjet({
   ],
 })
 
-export default clerkMiddleware(async (auth, req) => {
-  const decision = await aj.protect(
-    env.TEST_IP_ADDRESS
-      ? { ...req, ip: env.TEST_IP_ADDRESS, headers: req.headers }
-      : req
-  )
 
-  if (decision.isDenied()) {
-    return new NextResponse(null, { status: 403 })
-  }
+export default Auth(async (req) => {
+    const decision = await aj.protect(
+        env.TEST_IP_ADDRESS
+          ? { ...req, ip: env.TEST_IP_ADDRESS, headers: req.headers }
+          : req
+        
+      )
+    
+    //console.log(decision)
+     console.log(req.auth)
+    const isAuthorised = req.auth
 
-  if (isAdminRoute(req)) {
-    const user = await auth.protect()
-    if (user.sessionClaims.role !== "admin") {
-      return new NextResponse(null, { status: 404 })
+    if (isAdminRoute(req)) {
+    const user = req.auth?.user
+    if (user?.role !== "admin") {
+      
+      return new NextResponse(null, { status: 401 })
     }
   }
 
-  if (!isPublicRoute(req)) {
-    await auth.protect()
+  if (!isPublicRoute(req) && !isAuthorised) {
+        const newUrl = new URL("/sign-in", req.nextUrl.origin)
+        return NextResponse.redirect(newUrl)
+       
   }
 
-  if (!decision.ip.isVpn() && !decision.ip.isProxy()) {
+    if (!decision.ip.isVpn() && !decision.ip.isProxy()) {
     const headers = new Headers(req.headers)
     setUserCountryHeader(headers, decision.ip.country)
-    // console.log(decision.ip.country)
+    console.log(decision.ip.country,'country')
 
     return NextResponse.next({ request: { headers } })
   }
+
+
 })
+
+
+// export default clerkMiddleware(async (auth, req) => {
+//   const decision = await aj.protect(
+//     env.TEST_IP_ADDRESS
+//       ? { ...req, ip: env.TEST_IP_ADDRESS, headers: req.headers }
+//       : req
+//   )
+
+//   if (decision.isDenied()) {
+//     return new NextResponse(null, { status: 403 })
+//   }
+
+//   if (isAdminRoute(req)) {
+//     const user = await auth.protect()
+//     if (user.sessionClaims.role !== "admin") {
+//       return new NextResponse(null, { status: 404 })
+//     }
+//   }
+
+//   if (!isPublicRoute(req)) {
+//     await auth.protect()
+//   }
+
+//   if (!decision.ip.isVpn() && !decision.ip.isProxy()) {
+//     const headers = new Headers(req.headers)
+//     setUserCountryHeader(headers, decision.ip.country)
+//     // console.log(decision.ip.country)
+
+//     return NextResponse.next({ request: { headers } })
+//   }
+// })
 
 export const config = {
   matcher: [
