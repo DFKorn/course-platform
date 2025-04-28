@@ -1,11 +1,11 @@
-import NextAuth from "next-auth"
+import NextAuth, { DefaultSession, NextAuthConfig } from "next-auth"
 import GitHub from "next-auth/providers/github"
 import Resend from "next-auth/providers/resend"
 import Google from "next-auth/providers/google"
 import Credentials from "next-auth/providers/credentials"
 import { DrizzleAdapter } from "@auth/drizzle-adapter"
 import {db} from "@/drizzle/db"
-import { users } from "@/drizzle/schema/nextAuthTables"
+import { accounts, users } from "@/drizzle/schema/nextAuthTables"
 import { eq } from "drizzle-orm"
 import { z } from "zod"
 import bcrypt from "bcryptjs";
@@ -13,10 +13,41 @@ import type { Provider } from "next-auth/providers"
 import { getAuthUser } from "@/features/users/db/users"
 
 
+import { JWT } from "next-auth/jwt"
+declare module 'next-auth/jwt' {
+  interface JWT {
+      id: string | undefined;
+      role: string | undefined
+  }
+}
 
 
-
-
+declare module "next-auth" {
+  /**
+   * The shape of the user object returned in the OAuth providers' `profile` callback,
+   * or the second parameter of the `session` callback, when using a database.
+   */
+  interface User {
+    id?: string | undefined,
+    role?: string | undefined
+  }
+  /**
+   * Returned by `auth`, `useSession`, `getSession` and received as a prop on the `SessionProvider` React Context
+   */
+  interface Session {
+    user: {
+      /** The user's id. */
+      id: string | undefined
+      role: string | undefined
+      /**
+       * By default, TypeScript merges new interface properties and overwrites existing ones.
+       * In this case, the default session user properties will be overwritten,
+       * with the new ones defined above. To keep the default session user properties,
+       * you need to add them back into the newly declared interface.
+       */
+    } & DefaultSession["user"]
+  }
+}
 
   const providers: Provider[] = [
     Credentials({
@@ -61,10 +92,40 @@ import { getAuthUser } from "@/features/users/db/users"
 
   export const { handlers, auth, signIn, signOut } = NextAuth({
     providers,
+    adapter: DrizzleAdapter(db),
     pages: {
       signIn: "/sign-in",
     },
+    session:{
+      strategy: 'jwt'
+    },
     callbacks: {
+      jwt({ token, user }) {
+        //console.log('MiddlewareUser!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!',user)
+        if (user) { // User is available during sign-in
+          token.id = user.id
+          token.role = user.role ? user.role : 'user'
+        }
+        return token
+        //{...token, id:user.id, role: user.role}
+      },
+      session({ session, token }) {
+        //console.log('MiddlewareSessin!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!',session)
+        
+
+        // session.user.id = token.id
+        // session.user.role = token.role
+        return {...session, user:{
+          ...session.user,
+          id: token.id,
+          role: token.role
+        }}
+      },
+      // session({ session, user }) {
+      //   session.user.id = user.id
+      //   return session
+      // }
+    
       // authorized({auth, request: {nextUrl}}){
       //   console.log('AUTHORIZED!',auth)
       //   return !!auth?.user
@@ -83,7 +144,7 @@ import { getAuthUser } from "@/features/users/db/users"
       //   return false;
       // },
     },
-  })
+  } )  
 
  
 
