@@ -17,7 +17,7 @@ import { JWT } from "next-auth/jwt"
 declare module 'next-auth/jwt' {
   interface JWT {
       id: string | undefined;
-      role: string | undefined
+      role: 'admin' | 'user' | undefined
   }
 }
 
@@ -29,7 +29,7 @@ declare module "next-auth" {
    */
   interface User {
     id?: string | undefined,
-    role?: string | undefined
+    role?: 'admin' | 'user' | undefined
   }
   /**
    * Returned by `auth`, `useSession`, `getSession` and received as a prop on the `SessionProvider` React Context
@@ -38,7 +38,7 @@ declare module "next-auth" {
     user: {
       /** The user's id. */
       id: string | undefined
-      role: string | undefined
+      role: 'admin' | 'user' | undefined
       /**
        * By default, TypeScript merges new interface properties and overwrites existing ones.
        * In this case, the default session user properties will be overwritten,
