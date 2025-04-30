@@ -11,7 +11,7 @@ import { PictureInPicture2 } from 'lucide-react';
 
 
 export default function SignInPage(
-    searchParams: { callbackUrl: string | undefined }
+    // searchParams: { callbackUrl: string | undefined }
   ) {
 
   return (

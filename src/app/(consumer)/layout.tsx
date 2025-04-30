@@ -24,6 +24,7 @@ export default function ConsumerLayout({
 
 async function Navbar() {
   const session = await auth()
+  //console.log("Session",session)
   
     return (
       <header className="flex h-12 shadow bg-background z-10">
@@ -68,7 +69,7 @@ async function Navbar() {
             {/* <SignedOut> */}
               <Button className="self-center" asChild>
                 {/* <SignInButton>Sign In</SignInButton> */}
-                <Link href='sign-in'>Sing In</Link>
+                <Link href='/sign-in'>Sign In</Link>
               </Button>
             {/* </SignedOut> */}
           </Suspense>
