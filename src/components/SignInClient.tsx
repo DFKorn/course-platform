@@ -1,6 +1,7 @@
 'use client'
 import { Button } from "./ui/button";
 import { signIn} from "next-auth/react"
+import Image from 'next/image'
 
 export function SignInCl({
   provider,
@@ -9,7 +10,7 @@ export function SignInCl({
   return (
    
     <Button onClick={() => signIn(provider?.id, {redirectTo: "/"})} {...props} variant={'outline'}>
-      <img className='w-[20px]' src={`https://authjs.dev/img/providers/${provider?.id}.svg`}/>
+      <Image className='w-[20px]' width={20} height={20} src={`https://authjs.dev/img/providers/${provider?.id}.svg`} alt={`${provider?.id} provider`}/>
       {`${provider?.name}`}
     </Button>
 
