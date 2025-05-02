@@ -1,11 +1,13 @@
 import { Button } from "@/components/ui/button";
 import { canAccessAdminPages } from "@/permissions/general";
-import { getCurrentUser } from "@/services/clerk";
+
 import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
 import Link from "next/link";
 import { ReactNode, Suspense } from "react";
 import { auth } from "../../../auth";
 import { SignOut } from "@/components/signOut";
+import { getAuthUser, insertUser, synUsers } from "@/features/users/db/users";
+import { Session } from "next-auth";
 
 export default function ConsumerLayout({
     children,
@@ -24,6 +26,21 @@ export default function ConsumerLayout({
 
 async function Navbar() {
   const session = await auth()
+  //const {userId} = await getUser(session?.user.id)
+  if(session != null){await synUsers(session)}
+
+// if(session?.user.id != undefined && session?.user.email != undefined){
+//   const userDb = await getUser(session.user.id)
+//   if(userDb == null){
+//     const authUser = await getAuthUser(session.user.email)
+//     if(authUser != undefined){
+//       insertUser({...authUser,clerkUserId: authUser.id})
+//     }
+//   }
+
+// }
+
+
   //console.log("Session",session)
   
     return (

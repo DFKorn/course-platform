@@ -10,7 +10,7 @@ import { eq } from "drizzle-orm"
 import { z } from "zod"
 import bcrypt from "bcryptjs";
 import type { Provider } from "next-auth/providers"
-import { getAuthUser } from "@/features/users/db/users"
+import { getAuthUser} from "@/features/users/db/users"
 
 
 import { JWT } from "next-auth/jwt"
@@ -100,19 +100,19 @@ declare module "next-auth" {
       strategy: 'jwt'
     },
     callbacks: {
-      jwt({ token, user }) {
-        //console.log('MiddlewareUser!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!',user)
+      async jwt({ token, user,}) {
         if (user) { // User is available during sign-in
           token.id = user.id
           token.role = user.role ? user.role : 'user'
         }
+         
+        //console.log('TOKEN', token)
         return token
         //{...token, id:user.id, role: user.role}
       },
       session({ session, token }) {
-        //console.log('MiddlewareSessin!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!',session)
         
-
+        //console.log('SESSION USER!!!!', session.user)
         // session.user.id = token.id
         // session.user.role = token.role
         return {...session, user:{

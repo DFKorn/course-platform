@@ -60,7 +60,30 @@ export async function insertAuthUser(data: typeof users.$inferInsert){
   
 }
 
+export async function synUsers(session: {
+  user: {
+    email?: string |null, 
+    id?: string, 
+    role?: string, 
+    name?: string | null}
+}){
+  if(session?.user.id != undefined && session?.user.email != undefined){
+    const userDb = await getUser(session.user.id)
+    if(userDb == null){
+      const authUser = await getAuthUser(session.user.email)
+      if(authUser != undefined){
+        insertUser({...authUser,clerkUserId: authUser.id, imageUrl: authUser.image})
+      }
+    }
+  }
+}
 
+async function getUser(id: string) {
+    
+    return db.query.UserTable.findFirst({
+      where: eq(UserTable.id, id),
+    })
+  }
 
 
 
@@ -75,7 +98,7 @@ export async function insertUser(data: typeof UserTable.$inferInsert) {
       })
   
     if (newUser == null) throw new Error("Failed to create user")
-    revalidateUserCache(newUser.id)
+    //revalidateUserCache(newUser.id)
   
     return newUser
 }
