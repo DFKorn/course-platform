@@ -29,18 +29,25 @@ export default async function PurchasePage({
 }: {
   params: Promise<{ purchaseId: string }>
 }) {
-  const { purchaseId } = await params
+  // const { purchaseId } = await params
 
   return (
     <div className="container my-6">
       <Suspense fallback={<LoadingSpinner className="size-36 mx-auto" />}>
-        <SuspenseBoundary purchaseId={purchaseId} />
+        <SuspenseBoundary params={params}
+        //purchaseId={purchaseId} 
+        />
       </Suspense>
     </div>
   )
 }
 
-async function SuspenseBoundary({ purchaseId }: { purchaseId: string }) {
+async function SuspenseBoundary({
+  params
+}: {
+  params: Promise<{ purchaseId: string }>
+}) {
+  const { purchaseId } = await params
   const { userId, redirectToSignIn, user } = await getCurrentUser({
     allData: true,
   })
