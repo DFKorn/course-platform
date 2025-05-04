@@ -3,6 +3,7 @@
 import { getUserCoupon } from "@/lib/userCountryHeader"
 import { stripeServerClient } from "../stripeServer"
 import { env } from "@/data/env/client"
+import { headers } from "next/headers"
 
 export async function getClientSessionSecret(
   product: {
@@ -14,6 +15,9 @@ export async function getClientSessionSecret(
   },
   user: { email: string; id: string }
 ) {
+  
+  const origin: string = (await headers()).get("origin") as string;
+
   const coupon = await getUserCoupon()
   const discounts = coupon ? [{ coupon: coupon.stripeCouponId }] : undefined
 
@@ -26,7 +30,7 @@ export async function getClientSessionSecret(
           product_data: {
             name: product.name,
             images: [
-              new URL(product.imageUrl, env.NEXT_PUBLIC_SERVER_URL).href,
+              new URL(product.imageUrl, origin).href,
             ],
             description: product.description,
           },
@@ -36,7 +40,7 @@ export async function getClientSessionSecret(
     ],
     ui_mode: "embedded",
     mode: "payment",
-    return_url: `${env.NEXT_PUBLIC_SERVER_URL}/api/webhooks/stripe?stripeSessionId={CHECKOUT_SESSION_ID}`,
+    return_url: `${origin}/api/webhooks/stripe?stripeSessionId={CHECKOUT_SESSION_ID}`,
     customer_email: user.email,
     payment_intent_data: {
       receipt_email: user.email,
