@@ -1,3 +1,4 @@
+import { LoadingSpinner } from "@/components/LoadingSpinner"
 import { SkeletonButton } from "@/components/Skeleton"
 import {
   Accordion,
@@ -36,14 +37,30 @@ import { notFound } from "next/navigation"
 import { Suspense } from "react"
 
 
-
-
 export default async function ProductPage({
-    params,
-  }: {
-    params: Promise<{ productId: string }>
-  }) {
-    const { productId } = await params
+  params,
+}: {
+  params: Promise<{ productId: string }>
+}) {
+
+return (
+      <Suspense fallback={<LoadingSpinner className="my-6 size-36 mx-auto" />}>
+        <SuspendedComponent params={params} 
+        />
+      </Suspense>
+    )
+}
+
+
+async function SuspendedComponent({
+  params,
+  //searchParams,
+}: {
+  params: Promise<{ productId: string }>
+  //searchParams: Promise<{ authMode: string }>
+}) {
+
+  const { productId } = await params
     const product = await getPublicProduct(productId)
   
     if (product == null) return notFound()
@@ -54,110 +71,111 @@ export default async function ProductPage({
     )
 
     return (
-        <div className="container my-6">
-          <div className="flex gap-16 items-center justify-between">
-            <div className="flex gap-6 flex-col items-start">
-              <div className="flex flex-col gap-2">
-                <Suspense
-                  fallback={
-                    <div className="text-xl">
-                      {formatPrice(product.priceInDollars)}
-                    </div>
-                  }
-                >
-                  <Price price={product.priceInDollars} />
-                </Suspense>
-                <h1 className="text-4xl font-semibold">{product.name}</h1>
-                <div className="text-muted-foreground">
-                  {formatPlural(courseCount, {
-                    singular: "course",
-                    plural: "courses",
-                  })}{" "}
-                  •{" "}
-                  {formatPlural(lessonCount, {
-                    singular: "lesson",
-                    plural: "lessons",
-                  })}
-                </div>
-              </div>
-              <div className="text-xl">{product.description}</div>
-              <Suspense fallback={<SkeletonButton className="h-12 w-36" />}>
-                <PurchaseButton productId={product.id} />
+      <div className="container my-6">
+        <div className="flex gap-16 items-center justify-between">
+          <div className="flex gap-6 flex-col items-start">
+            <div className="flex flex-col gap-2">
+              <Suspense
+                fallback={
+                  <div className="text-xl">
+                    {formatPrice(product.priceInDollars)}
+                  </div>
+                }
+              >
+                <Price price={product.priceInDollars} />
               </Suspense>
+              <h1 className="text-4xl font-semibold">{product.name}</h1>
+              <div className="text-muted-foreground">
+                {formatPlural(courseCount, {
+                  singular: "course",
+                  plural: "courses",
+                })}{" "}
+                •{" "}
+                {formatPlural(lessonCount, {
+                  singular: "lesson",
+                  plural: "lessons",
+                })}
+              </div>
             </div>
-            <div className="relative aspect-video max-w-lg flex-grow">
-              <Image
-                src={product.imageUrl}
-                fill
-                alt={product.name}
-                className="object-contain rounded-xl"
-              />
-            </div>
+            <div className="text-xl">{product.description}</div>
+            <Suspense fallback={<SkeletonButton className="h-12 w-36" />}>
+              <PurchaseButton productId={product.id} />
+            </Suspense>
           </div>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-8 items-start">
-            {product.courses.map(course => (
-              <Card key={course.id}>
-                <CardHeader>
-                  <CardTitle>{course.name}</CardTitle>
-                  <CardDescription>
-                    {formatPlural(course.courseSections.length, {
-                      plural: "sections",
-                      singular: "section",
-                    })}{" "}
-                    •{" "}
-                    {formatPlural(
-                      sumArray(course.courseSections, s => s.lessons.length),
-                      {
-                        plural: "lessons",
-                        singular: "lesson",
-                      }
-                    )}
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <Accordion type="multiple">
-                    {course.courseSections.map(section => (
-                      <AccordionItem key={section.id} value={section.id}>
-                        <AccordionTrigger className="flex gap-2">
-                          <div className="flex flex-col flex-grow">
-                            <span className="text-lg">{section.name}</span>
-                            <span className="text-muted-foreground">
-                              {formatPlural(section.lessons.length, {
-                                plural: "lessons",
-                                singular: "lesson",
-                              })}
-                            </span>
-                          </div>
-                        </AccordionTrigger>
-                        <AccordionContent className="flex flex-col gap-2">
-                          {section.lessons.map(lesson => (
-                            <div
-                              key={lesson.id}
-                              className="flex items-center gap-2 text-base"
-                            >
-                              <VideoIcon className="size-4" />
-                              {lesson.status === "preview" ? (
-                                <Link
-                                  href={`/courses/${course.id}/lessons/${lesson.id}`}
-                                  className="underline text-accent"
-                                >
-                                  {lesson.name}
-                                </Link>
-                              ) : (
-                                lesson.name
-                              )}
-                            </div>
-                          ))}
-                        </AccordionContent>
-                      </AccordionItem>
-                    ))}
-                  </Accordion>
-                </CardContent>
-              </Card>
-            ))}
+          <div className="relative aspect-video max-w-lg flex-grow">
+            <Image
+              src={product.imageUrl}
+              fill
+              alt={product.name}
+              className="object-contain rounded-xl"
+            />
           </div>
         </div>
-      )
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-8 items-start">
+          {product.courses.map(course => (
+            <Card key={course.id}>
+              <CardHeader>
+                <CardTitle>{course.name}</CardTitle>
+                <CardDescription>
+                  {formatPlural(course.courseSections.length, {
+                    plural: "sections",
+                    singular: "section",
+                  })}{" "}
+                  •{" "}
+                  {formatPlural(
+                    sumArray(course.courseSections, s => s.lessons.length),
+                    {
+                      plural: "lessons",
+                      singular: "lesson",
+                    }
+                  )}
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <Accordion type="multiple">
+                  {course.courseSections.map(section => (
+                    <AccordionItem key={section.id} value={section.id}>
+                      <AccordionTrigger className="flex gap-2">
+                        <div className="flex flex-col flex-grow">
+                          <span className="text-lg">{section.name}</span>
+                          <span className="text-muted-foreground">
+                            {formatPlural(section.lessons.length, {
+                              plural: "lessons",
+                              singular: "lesson",
+                            })}
+                          </span>
+                        </div>
+                      </AccordionTrigger>
+                      <AccordionContent className="flex flex-col gap-2">
+                        {section.lessons.map(lesson => (
+                          <div
+                            key={lesson.id}
+                            className="flex items-center gap-2 text-base"
+                          >
+                            <VideoIcon className="size-4" />
+                            {lesson.status === "preview" ? (
+                              <Link
+                                href={`/courses/${course.id}/lessons/${lesson.id}`}
+                                className="underline text-accent"
+                              >
+                                {lesson.name}
+                              </Link>
+                            ) : (
+                              lesson.name
+                            )}
+                          </div>
+                        ))}
+                      </AccordionContent>
+                    </AccordionItem>
+                  ))}
+                </Accordion>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      </div>
+    )
+
 }
 
 
