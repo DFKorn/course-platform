@@ -1,5 +1,5 @@
 import { Badge } from "@/components/ui/badge"
-import { UserButton } from "@clerk/nextjs"
+//import { UserButton } from "@clerk/nextjs"
 import Link from "next/link"
 import { ReactNode } from "react"
 
@@ -43,13 +43,13 @@ function Navbar() {
           Sales
         </Link>
         <div className="size-8 self-center">
-          <UserButton
+          {/* <UserButton
             appearance={{
               elements: {
                 userButtonAvatarBox: { width: "100%", height: "100%" },
               },
             }}
-          />
+          /> */}
         </div>
       </nav>
     </header>

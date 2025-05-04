@@ -8,6 +8,7 @@ import { auth } from "../../../auth";
 import { SignOut } from "@/components/signOut";
 import { getAuthUser, insertUser, synUsers } from "@/features/users/db/users";
 import { Session } from "next-auth";
+import { after } from "next/server";
 
 export default function ConsumerLayout({
     children,
@@ -26,8 +27,11 @@ export default function ConsumerLayout({
 
 async function Navbar() {
   const session = await auth()
+  after(() => {
+    if(session != null){synUsers(session)}
+  })
   //const {userId} = await getUser(session?.user.id)
-  if(session != null){await synUsers(session)}
+ 
 
 // if(session?.user.id != undefined && session?.user.email != undefined){
 //   const userDb = await getUser(session.user.id)
@@ -100,6 +104,9 @@ async function Navbar() {
 
 
 async function AdminLink() {
+  const session = await auth()
+  const user = session?.user
+  if (user == undefined || !canAccessAdminPages(user)) return null
   // const user = await getCurrentUser()
   // if (!canAccessAdminPages(user)) return null
 

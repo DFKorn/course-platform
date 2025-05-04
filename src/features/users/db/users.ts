@@ -10,7 +10,7 @@ import bcrypt from "bcryptjs"
 
 export async function getAuthUser(email: string) {
     // "use cache"
-    // cacheTag(getUserIdTag(id))
+    //cacheTag(getUserIdTag(id))
     //console.log("Called")
   
     return db.query.users.findFirst({
@@ -30,7 +30,7 @@ export async function insertAuthUser(data: typeof users.$inferInsert){
     const user = await getAuthUser(email)
     if (user?.email) {
       return { error: true, message: "User already exists" }
-      throw new Error("User already exists")
+      //throw new Error("User already exists")
     }
 
     const salt = await bcrypt.genSalt(10);
