@@ -31,37 +31,52 @@ export default async function LessonPage({
 }: {
   params: Promise<{ courseId: string; lessonId: string }>
 }) {
-  const { courseId, lessonId } = await params
-  const lesson = await getLesson(lessonId)
-
-  if (lesson == null) return notFound()
+  
 
   return (
     <Suspense fallback={<LoadingSkeleton />}>
-      <SuspenseBoundary lesson={lesson} courseId={courseId} />
+      <SuspenseBoundary params={params}/>
+      {/* <SuspenseBoundary lesson={lesson} courseId={courseId} /> */}
     </Suspense>
   )
 }
+
 
 function LoadingSkeleton() {
   return null
 }
 
+
 async function SuspenseBoundary({
-  lesson,
-  courseId,
+  params
 }: {
-  lesson: {
-    id: string
-    youtubeVideoId: string
-    name: string
-    description: string | null
-    status: LessonStatus
-    sectionId: string
-    order: number
-  }
-  courseId: string
-}) {
+  params:Promise<{
+    lessonId: string
+    courseId: string
+  }>
+  
+}
+
+//   {
+//   lesson,
+//   courseId,
+// }: {
+//   lesson: {
+//     id: string
+//     youtubeVideoId: string
+//     name: string
+//     description: string | null
+//     status: LessonStatus
+//     sectionId: string
+//     order: number
+//   }
+//   courseId: string
+// }
+) {
+  const { courseId, lessonId } = await params
+  const lesson = await getLesson(lessonId)
+
+  if (lesson == null) return notFound()
   const { userId, role } = await getCurrentUser()
   const isLessonComplete =
     userId == null
