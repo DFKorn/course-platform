@@ -1,3 +1,4 @@
+import { LoadingSpinner } from "@/components/LoadingSpinner"
 import { PageHeader } from "@/components/PageHeader"
 import { db } from "@/drizzle/db"
 import { CourseTable, ProductTable } from "@/drizzle/schema"
@@ -7,30 +8,48 @@ import { getProductIdTag } from "@/features/products/db/cache"
 import { asc, eq } from "drizzle-orm"
 import { cacheTag } from "next/dist/server/use-cache/cache-tag"
 import { notFound } from "next/navigation"
+import { Suspense } from "react"
 
 export default async function EditProductPage({
   params,
 }: {
   params: Promise<{ productId: string }>
 }) {
+  
+  return (
+    <div className="container my-6">
+      <PageHeader title="New Product" />
+      <Suspense fallback={<LoadingSpinner className="my-6 size-36 mx-auto" />}>
+        <SuspendedComponent params={params} 
+        />
+      </Suspense>
+    </div>
+  )
+}
+
+async function SuspendedComponent({
+  params,
+ 
+}: {
+  params: Promise<{ productId: string }>
+ 
+}) {
+
   const { productId } = await params
   const product = await getProduct(productId)
 
   if (product == null) return notFound()
-
-  return (
-    <div className="container my-6">
-      <PageHeader title="New Product" />
-      <ProductForm
+  return(
+    <ProductForm
         product={{
           ...product,
           courseIds: product.courseProducts.map(c => c.courseId),
         }}
         courses={await getCourses()}
       />
-    </div>
   )
 }
+
 
 async function getCourses() {
   "use cache"
