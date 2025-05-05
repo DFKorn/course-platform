@@ -91,8 +91,9 @@ async function SuspenseBoundary({
   return (
     <div className="my-4 flex flex-col gap-4">
       <div className="aspect-video">
+      <Suspense fallback={<LoadingSpinner className="my-6 size-36 mx-auto" />}>
         {canView ? (
-          <Suspense fallback={<LoadingSpinner className="my-6 size-36 mx-auto" />}>
+          
           <YouTubeVideoPlayer
             videoId={lesson.youtubeVideoId}
             onFinishedVideo={
@@ -101,12 +102,14 @@ async function SuspenseBoundary({
                 : undefined
             }
           />
-          </Suspense>
+          
         ) : (
           <div className="flex items-center justify-center bg-primary text-primary-foreground h-full w-full">
             <LockIcon className="size-16" />
           </div>
+          
         )}
+      </Suspense>
       </div>
       <div className="flex flex-col gap-2">
         <div className="flex justify-between items-start gap-4">
@@ -121,6 +124,8 @@ async function SuspenseBoundary({
                 Previous
               </ToLessonButton>
             </Suspense>
+            <Suspense fallback={<LoadingSkeleton/>}>
+            
             {canUpdateCompletionStatus && (
               <ActionButton
                 action={updateLessonCompleteStatus.bind(
@@ -143,6 +148,7 @@ async function SuspenseBoundary({
                 </div>
               </ActionButton>
             )}
+            </Suspense>
             <Suspense fallback={<SkeletonButton />}>
               <ToLessonButton
                 lesson={lesson}
@@ -154,11 +160,13 @@ async function SuspenseBoundary({
             </Suspense>
           </div>
         </div>
+        <Suspense fallback={<LoadingSkeleton/>}>
         {canView ? (
           lesson.description && <p>{lesson.description}</p>
         ) : (
           <p>This lesson is locked. Please purchase the course to view it.</p>
         )}
+        </Suspense>
       </div>
     </div>
   )
