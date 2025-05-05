@@ -1,4 +1,5 @@
 import { ActionButton } from "@/components/ActionButton"
+import { LoadingSpinner } from "@/components/LoadingSpinner"
 import { SkeletonButton } from "@/components/Skeleton"
 import { Button } from "@/components/ui/button"
 import { db } from "@/drizzle/db"
@@ -34,7 +35,7 @@ export default async function LessonPage({
   
 
   return (
-    <Suspense fallback={<LoadingSkeleton />}>
+    <Suspense fallback={<LoadingSpinner className="my-6 size-36 mx-auto" />}>
       <SuspenseBoundary params={params}/>
       {/* <SuspenseBoundary lesson={lesson} courseId={courseId} /> */}
     </Suspense>
