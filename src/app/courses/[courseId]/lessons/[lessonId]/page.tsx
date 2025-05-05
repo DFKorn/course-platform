@@ -33,7 +33,6 @@ export default async function LessonPage({
   params: Promise<{ courseId: string; lessonId: string }>
 }) {
   
-
   return (
     <Suspense fallback={<LoadingSpinner className="my-6 size-36 mx-auto" />}>
       <SuspenseBoundary params={params}/>
@@ -93,6 +92,7 @@ async function SuspenseBoundary({
     <div className="my-4 flex flex-col gap-4">
       <div className="aspect-video">
         {canView ? (
+          <Suspense fallback={<LoadingSpinner className="my-6 size-36 mx-auto" />}>
           <YouTubeVideoPlayer
             videoId={lesson.youtubeVideoId}
             onFinishedVideo={
@@ -101,6 +101,7 @@ async function SuspenseBoundary({
                 : undefined
             }
           />
+          </Suspense>
         ) : (
           <div className="flex items-center justify-center bg-primary text-primary-foreground h-full w-full">
             <LockIcon className="size-16" />
