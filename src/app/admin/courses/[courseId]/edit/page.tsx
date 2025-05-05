@@ -1,4 +1,5 @@
 import { ActionButton } from "@/components/ActionButton"
+import { LoadingSpinner } from "@/components/LoadingSpinner"
 import { PageHeader } from "@/components/PageHeader"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -21,16 +22,31 @@ import { asc, eq } from "drizzle-orm"
 import { EyeClosed, PlusIcon, Trash2Icon } from "lucide-react"
 import { cacheTag } from "next/dist/server/use-cache/cache-tag"
 import { notFound } from "next/navigation"
+import { Suspense } from "react"
+
 
 export default async function EditCoursePage({
-    params
+  params
 }:{
-    params:Promise<{courseId: string}>
+  params:Promise<{courseId: string}>
 }){
-    const {courseId} = await params
-    const course = await getCourse(courseId)
+  return(
+    <Suspense fallback={<LoadingSpinner className="my-6 size-36 mx-auto" />}>
+      <SuspendedComponent params={params} 
+      />
+    </Suspense>
+  )
+}
 
-    if (course == null) return notFound()
+async function SuspendedComponent({
+  params
+}:{
+  params:Promise<{courseId: string}>
+}){
+
+  const {courseId} = await params
+  const course = await getCourse(courseId)
+  if (course == null) return notFound()
 
     return (
       <div className="container my-6">
@@ -122,7 +138,13 @@ export default async function EditCoursePage({
         </Tabs>
       </div>
     )
+
+
 }
+
+
+
+
 
 
 async function getCourse(id: string) {
