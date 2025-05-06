@@ -73,20 +73,20 @@ async function SuspenseBoundary({
 //   courseId: string
 // }
 ) {
-  const { courseId, lessonId } = await params
-  const lesson = await getLesson(lessonId)
+  // const { courseId, lessonId } = await params
+  // const lesson = await getLesson(lessonId)
 
-  if (lesson == null) return notFound()
-  const { userId, role } = await getCurrentUser()
-  const isLessonComplete =
-    userId == null
-      ? false
-      : await getIsLessonComplete({ lessonId: lesson.id, userId })
-  const canView = await canViewLesson({ role, userId }, lesson)
-  const canUpdateCompletionStatus = await canUpdateUserLessonCompleteStatus(
-    { userId },
-    lesson.id
-  )
+  // if (lesson == null) return notFound()
+  // const { userId, role } = await getCurrentUser()
+  // const isLessonComplete =
+  //   userId == null
+  //     ? false
+  //     : await getIsLessonComplete({ lessonId: lesson.id, userId })
+  // const canView = await canViewLesson({ role, userId }, lesson)
+  // const canUpdateCompletionStatus = await canUpdateUserLessonCompleteStatus(
+  //   { userId },
+  //   lesson.id
+  // )
 
   return (
     <div className="my-4 flex flex-col gap-4">
