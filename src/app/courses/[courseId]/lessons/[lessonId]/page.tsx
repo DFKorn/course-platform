@@ -35,7 +35,9 @@ export default async function LessonPage({
   
   return (
     <Suspense fallback={<LoadingSpinner className="my-6 size-36 mx-auto" />}>
-      <SuspenseBoundary params={params}/>
+      <SuspenseBoundary 
+      //params={params}
+      />
       {/* <SuspenseBoundary lesson={lesson} courseId={courseId} /> */}
     </Suspense>
   )
@@ -47,15 +49,16 @@ function LoadingSkeleton() {
 }
 
 
-async function SuspenseBoundary({
-  params
-}: {
-  params:Promise<{
-    lessonId: string
-    courseId: string
-  }>
+async function SuspenseBoundary(
+//   {
+//   params
+// }: {
+//   params:Promise<{
+//     lessonId: string
+//     courseId: string
+//   }>
   
-}
+// }
 
 //   {
 //   lesson,
