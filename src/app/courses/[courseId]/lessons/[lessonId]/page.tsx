@@ -113,7 +113,7 @@ async function SuspenseBoundary({
       </div>
       <div className="flex flex-col gap-2">
         <div className="flex justify-between items-start gap-4">
-          <h1 className="text-2xl font-semibold">{lesson.name}</h1>
+          {/* <h1 className="text-2xl font-semibold">{lesson.name}</h1> */}
           <div className="flex gap-2 justify-end">
             {/* <Suspense fallback={<SkeletonButton />}>
               <ToLessonButton
