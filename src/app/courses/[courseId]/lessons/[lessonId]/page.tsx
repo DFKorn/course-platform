@@ -115,7 +115,7 @@ async function SuspenseBoundary({
         <div className="flex justify-between items-start gap-4">
           <h1 className="text-2xl font-semibold">{lesson.name}</h1>
           <div className="flex gap-2 justify-end">
-            {/* <Suspense fallback={<SkeletonButton />}>
+            <Suspense fallback={<SkeletonButton />}>
               <ToLessonButton
                 lesson={lesson}
                 courseId={courseId}
@@ -123,7 +123,7 @@ async function SuspenseBoundary({
               >
                 Previous
               </ToLessonButton>
-            </Suspense> */}
+            </Suspense>
             <Suspense fallback={<LoadingSkeleton/>}>
             
             {canUpdateCompletionStatus && (
@@ -149,7 +149,7 @@ async function SuspenseBoundary({
               </ActionButton>
             )}
             </Suspense>
-            {/* <Suspense fallback={<SkeletonButton />}>
+            <Suspense fallback={<SkeletonButton />}>
               <ToLessonButton
                 lesson={lesson}
                 courseId={courseId}
@@ -157,7 +157,7 @@ async function SuspenseBoundary({
               >
                 Next
               </ToLessonButton>
-            </Suspense> */}
+            </Suspense>
           </div>
         </div>
         <Suspense fallback={<LoadingSkeleton/>}>
