@@ -19,21 +19,21 @@ import { CoursePageClient } from "./_client"
 import { getUserLessonCompleteUserTag } from "@/features/lessons/db/cache/userLessonComplete"
 
 export default async function CoursePageLayout({
-  params,
+ // params,
   children,
 }: {
-  params: Promise<{ courseId: string }>
+ // params: Promise<{ courseId: string }>
   children: ReactNode
 }) {
-  const { courseId } = await params
-  const course = await getCourse(courseId)
+  // const { courseId } = await params
+  // const course = await getCourse(courseId)
 
-  if (course == null) return notFound()
+  // if (course == null) return notFound()
 
   return (
     <div className="grid grid-cols-[300px,1fr] gap-8 container">
       <div className="py-4">
-        <div className="text-lg font-semibold">{course.name}</div>
+        {/* <div className="text-lg font-semibold">{course.name}</div> */}
         {/* <Suspense
           fallback={<CoursePageClient course={mapCourse(course, [])} />}
         >
