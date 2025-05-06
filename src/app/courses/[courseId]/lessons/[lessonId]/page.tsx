@@ -160,13 +160,13 @@ async function SuspenseBoundary({
             </Suspense> */}
           </div>
         </div>
-        <Suspense fallback={<LoadingSkeleton/>}>
+        {/* <Suspense fallback={<LoadingSkeleton/>}>
         {canView ? (
           lesson.description && <p>{lesson.description}</p>
         ) : (
           <p>This lesson is locked. Please purchase the course to view it.</p>
         )}
-        </Suspense>
+        </Suspense> */}
       </div>
     </div>
   )
