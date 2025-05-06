@@ -28,16 +28,14 @@ import { notFound } from "next/navigation"
 import { ReactNode, Suspense } from "react"
 
 export default async function LessonPage({
-  //params,
+  params,
 }: {
-  //params: Promise<{ courseId: string; lessonId: string }>
+  params: Promise<{ courseId: string; lessonId: string }>
 }) {
   
   return (
     <Suspense fallback={<LoadingSpinner className="my-6 size-36 mx-auto" />}>
-      <SuspenseBoundary 
-      //params={params}
-      />
+      <SuspenseBoundary params={params}/>
       {/* <SuspenseBoundary lesson={lesson} courseId={courseId} /> */}
     </Suspense>
   )
@@ -49,16 +47,15 @@ function LoadingSkeleton() {
 }
 
 
-async function SuspenseBoundary(
-//   {
-//   params
-// }: {
-//   params:Promise<{
-//     lessonId: string
-//     courseId: string
-//   }>
+async function SuspenseBoundary({
+  params
+}: {
+  params:Promise<{
+    lessonId: string
+    courseId: string
+  }>
   
-// }
+}
 
 //   {
 //   lesson,
@@ -76,25 +73,25 @@ async function SuspenseBoundary(
 //   courseId: string
 // }
 ) {
-  // const { courseId, lessonId } = await params
-  // const lesson = await getLesson(lessonId)
+  const { courseId, lessonId } = await params
+  const lesson = await getLesson(lessonId)
 
-  // if (lesson == null) return notFound()
-  // const { userId, role } = await getCurrentUser()
-  // const isLessonComplete =
-  //   userId == null
-  //     ? false
-  //     : await getIsLessonComplete({ lessonId: lesson.id, userId })
-  // const canView = await canViewLesson({ role, userId }, lesson)
-  // const canUpdateCompletionStatus = await canUpdateUserLessonCompleteStatus(
-  //   { userId },
-  //   lesson.id
-  // )
+  if (lesson == null) return notFound()
+  const { userId, role } = await getCurrentUser()
+  const isLessonComplete =
+    userId == null
+      ? false
+      : await getIsLessonComplete({ lessonId: lesson.id, userId })
+  const canView = await canViewLesson({ role, userId }, lesson)
+  const canUpdateCompletionStatus = await canUpdateUserLessonCompleteStatus(
+    { userId },
+    lesson.id
+  )
 
   return (
     <div className="my-4 flex flex-col gap-4">
       <div className="aspect-video">
-      {/* <Suspense fallback={<LoadingSpinner className="my-6 size-36 mx-auto" />}>
+      <Suspense fallback={<LoadingSpinner className="my-6 size-36 mx-auto" />}>
         {canView ? (
           
           <YouTubeVideoPlayer
@@ -112,11 +109,11 @@ async function SuspenseBoundary(
           </div>
           
         )}
-      </Suspense> */}
+      </Suspense>
       </div>
       <div className="flex flex-col gap-2">
         <div className="flex justify-between items-start gap-4">
-          {/* <h1 className="text-2xl font-semibold">{lesson.name}</h1> */}
+          <h1 className="text-2xl font-semibold">{lesson.name}</h1>
           <div className="flex gap-2 justify-end">
             {/* <Suspense fallback={<SkeletonButton />}>
               <ToLessonButton
@@ -127,7 +124,7 @@ async function SuspenseBoundary(
                 Previous
               </ToLessonButton>
             </Suspense> */}
-            {/* <Suspense fallback={<LoadingSkeleton/>}>
+            <Suspense fallback={<LoadingSkeleton/>}>
             
             {canUpdateCompletionStatus && (
               <ActionButton
@@ -151,7 +148,7 @@ async function SuspenseBoundary(
                 </div>
               </ActionButton>
             )}
-            </Suspense> */}
+            </Suspense>
             {/* <Suspense fallback={<SkeletonButton />}>
               <ToLessonButton
                 lesson={lesson}
@@ -163,13 +160,13 @@ async function SuspenseBoundary(
             </Suspense> */}
           </div>
         </div>
-        {/* <Suspense fallback={<LoadingSkeleton/>}>
+        <Suspense fallback={<LoadingSkeleton/>}>
         {canView ? (
           lesson.description && <p>{lesson.description}</p>
         ) : (
           <p>This lesson is locked. Please purchase the course to view it.</p>
         )}
-        </Suspense> */}
+        </Suspense>
       </div>
     </div>
   )
