@@ -28,9 +28,9 @@ import { notFound } from "next/navigation"
 import { ReactNode, Suspense } from "react"
 
 export default async function LessonPage({
-  params,
+  //params,
 }: {
-  params: Promise<{ courseId: string; lessonId: string }>
+  //params: Promise<{ courseId: string; lessonId: string }>
 }) {
   
   return (
