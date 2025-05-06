@@ -124,7 +124,7 @@ async function SuspenseBoundary({
                 Previous
               </ToLessonButton>
             </Suspense> */}
-            <Suspense fallback={<LoadingSkeleton/>}>
+            {/* <Suspense fallback={<LoadingSkeleton/>}>
             
             {canUpdateCompletionStatus && (
               <ActionButton
@@ -148,7 +148,7 @@ async function SuspenseBoundary({
                 </div>
               </ActionButton>
             )}
-            </Suspense>
+            </Suspense> */}
             {/* <Suspense fallback={<SkeletonButton />}>
               <ToLessonButton
                 lesson={lesson}
