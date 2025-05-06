@@ -91,7 +91,7 @@ async function SuspenseBoundary({
   return (
     <div className="my-4 flex flex-col gap-4">
       <div className="aspect-video">
-      <Suspense fallback={<LoadingSpinner className="my-6 size-36 mx-auto" />}>
+      {/* <Suspense fallback={<LoadingSpinner className="my-6 size-36 mx-auto" />}>
         {canView ? (
           
           <YouTubeVideoPlayer
@@ -109,7 +109,7 @@ async function SuspenseBoundary({
           </div>
           
         )}
-      </Suspense>
+      </Suspense> */}
       </div>
       <div className="flex flex-col gap-2">
         <div className="flex justify-between items-start gap-4">
