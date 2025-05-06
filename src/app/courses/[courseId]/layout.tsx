@@ -34,11 +34,11 @@ export default async function CoursePageLayout({
     <div className="grid grid-cols-[300px,1fr] gap-8 container">
       <div className="py-4">
         <div className="text-lg font-semibold">{course.name}</div>
-        <Suspense
+        {/* <Suspense
           fallback={<CoursePageClient course={mapCourse(course, [])} />}
         >
           <SuspenseBoundary course={course} />
-        </Suspense>
+        </Suspense> */}
       </div>
       <div className="py-4">{children}</div>
     </div>
