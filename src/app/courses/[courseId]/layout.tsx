@@ -15,7 +15,7 @@ import { asc, eq } from "drizzle-orm"
 import { cacheTag } from "next/dist/server/use-cache/cache-tag"
 import { notFound } from "next/navigation"
 import { ReactNode, Suspense } from "react"
-import { CoursePageClient } from "./_client"
+import { CoursePageClient, CoursePageSkeleton } from "./_client"
 import { getUserLessonCompleteUserTag } from "@/features/lessons/db/cache/userLessonComplete"
 
 export default async function CoursePageLayout({
@@ -25,19 +25,16 @@ export default async function CoursePageLayout({
   params: Promise<{ courseId: string }>
   children: ReactNode
 }) {
-  const { courseId } = await params
-  const course = await getCourse(courseId)
-
-  if (course == null) return notFound()
+  
 
   return (
     <div className="grid grid-cols-[300px,1fr] gap-8 container">
       <div className="py-4">
-        <div className="text-lg font-semibold">{course.name}</div>
         <Suspense
-          fallback={<CoursePageClient course={mapCourse(course, [])} />}
+          //fallback={<CoursePageClient course={mapCourse(course, [])} />}
+          fallback={<CoursePageSkeleton amount={2}/>}
         >
-          <SuspenseBoundary course={course} />
+          <SuspenseBoundary params={params} />
         </Suspense>
       </div>
       <div className="py-4">{children}</div>
@@ -77,26 +74,25 @@ async function getCourse(id: string) {
 }
 
 async function SuspenseBoundary({
-  course,
+  params,
 }: {
-  course: {
-    name: string
-    id: string
-    courseSections: {
-      name: string
-      id: string
-      lessons: {
-        name: string
-        id: string
-      }[]
-    }[]
-  }
+  params: Promise<{ courseId: string }>
 }) {
+  const { courseId } = await params
+  const course = await getCourse(courseId)
+  if (course == null) return notFound()
+
   const { userId } = await getCurrentUser()
   const completedLessonIds =
     userId == null ? [] : await getCompletedLessonIds(userId)
 
-  return <CoursePageClient course={mapCourse(course, completedLessonIds)} />
+  return (
+    <>
+      <div className="text-lg font-semibold">{course.name}</div>
+      <CoursePageClient course={mapCourse(course, completedLessonIds)} />
+    </>
+  )
+  
 }
 
 async function getCompletedLessonIds(userId: string) {

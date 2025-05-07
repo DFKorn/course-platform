@@ -1,5 +1,6 @@
 "use client"
 
+import { SkeletonArray, SkeletonText } from "@/components/Skeleton"
 import {
   Accordion,
   AccordionContent,
@@ -72,5 +73,32 @@ export function CoursePageClient({
         </AccordionItem>
       ))}
     </Accordion>
+  )
+}
+
+
+
+export function CoursePageSkeleton({amount}: {amount: number}){
+  return (
+    <>
+   <SkeletonText className="w-36" size="lg" />
+    <Accordion
+      type="multiple"
+      defaultValue = {['value-0']}
+    >
+      {Array(amount).fill(null).map((_,index) => (
+        <AccordionItem key={index} value={`value-${index}`}>
+          <AccordionTrigger className="text-lg">
+            <SkeletonText className="w-36" size="lg" />
+          </AccordionTrigger>
+          <AccordionContent className="flex flex-col gap-1">
+            <SkeletonArray amount={1}>
+              <SkeletonText rows={5} className="w-36" />
+            </SkeletonArray>
+          </AccordionContent>
+        </AccordionItem>
+      ))}
+    </Accordion>
+    </>
   )
 }

@@ -56,22 +56,6 @@ async function SuspenseBoundary({
   }>
   
 }
-
-//   {
-//   lesson,
-//   courseId,
-// }: {
-//   lesson: {
-//     id: string
-//     youtubeVideoId: string
-//     name: string
-//     description: string | null
-//     status: LessonStatus
-//     sectionId: string
-//     order: number
-//   }
-//   courseId: string
-// }
 ) {
   const { courseId, lessonId } = await params
   const lesson = await getLesson(lessonId)
