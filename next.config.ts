@@ -11,6 +11,17 @@ const nextConfig: NextConfig = {
     // your project has ESLint errors.
     ignoreDuringBuilds: true,
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'linktr.ee',
+        port: '',
+        pathname: '/og/image/**',
+        search: '',
+      },
+    ],
+  },
 };
 
 export default nextConfig;
