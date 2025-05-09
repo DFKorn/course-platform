@@ -71,7 +71,7 @@ export function LessonForm({
   }
 
   const videoId = form.watch("youtubeVideoId")
-  console.log(videoId)
+  //console.log(videoId)
 
   return (
     <Form {...form}>

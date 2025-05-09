@@ -26,7 +26,7 @@ export default function SignInForm(){
     const error = searchParams.get('error')
     const errorMessage = error == 'CredentialsSignin' ? 'The email or password you entered is incorrect, please try again.' : 'Something went wrong'
     //if(error){actionToast({actionData:{error: true, message: errorMessage}})}
-    console.log(error)
+    //console.log(error)
 
     const form = useForm<z.infer<typeof signInSchema>>({
           resolver: zodResolver(signInSchema),
