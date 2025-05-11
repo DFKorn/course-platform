@@ -25,6 +25,10 @@ Platform for selling courses
   
 ### Payments
 - Stripe
+  - To test payments use a card number: 4242 4242 4242 4242
+  - Use a valid future date, such as 12/34
+  - Use any three-digit CVC
+  - Use any value you like for other form fields
 
 ### Deployment
 - Vercel 
