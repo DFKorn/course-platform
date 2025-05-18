@@ -26,6 +26,12 @@ function Navbar() {
         </div>
         <Link
           className="hover:bg-accent/10 flex items-center px-2"
+          href="/"
+        >
+          User
+        </Link>
+        <Link
+          className="hover:bg-accent/10 flex items-center px-2"
           href="/admin/courses"
         >
           Courses
