@@ -20,7 +20,7 @@ function Navbar() {
       <nav className="flex gap-4 container">
         <div className="mr-auto flex items-center gap-2">
           <Link className="text-lg hover:underline" href="/admin">
-            Web Dev Simplified
+            Course Platform
           </Link>
           <Badge>Admin</Badge>
         </div>
