@@ -38,7 +38,7 @@ async function Navbar() {
             className="mr-auto text-lg hover:underline flex items-center"
             href="/"
             >
-            Web Dev Simplified
+            Course Platform
             </Link>
             {session?.user ? (
               <Suspense>
