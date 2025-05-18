@@ -30,22 +30,6 @@ async function Navbar() {
   after(() => {
     if(session != null){synUsers(session)}
   })
-  //const {userId} = await getUser(session?.user.id)
- 
-
-// if(session?.user.id != undefined && session?.user.email != undefined){
-//   const userDb = await getUser(session.user.id)
-//   if(userDb == null){
-//     const authUser = await getAuthUser(session.user.email)
-//     if(authUser != undefined){
-//       insertUser({...authUser,clerkUserId: authUser.id})
-//     }
-//   }
-
-// }
-
-
-  //console.log("Session",session)
   
     return (
       <header className="flex h-12 shadow bg-background z-10">
